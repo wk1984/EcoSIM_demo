@@ -243,6 +243,16 @@ if [ -L ./local/bin ]; then
 fi
 mkdir ./local/bin
 
+if [[ "$(uname)" == "Darwin" ]]; then
+# if the system is MacOS, we will define a function "realpath" >>>
+realpath() {
+    path=`eval echo "$1"`
+    folder=$(dirname "$path")
+    echo $(cd "$folder"; pwd)/$(basename "$path"); 
+}
+#<<<<
+fi
+
 build_path=$(realpath "$ecosim_build_dir/local/bin")
 
 for file in $(find "$build_path" -type f); do
